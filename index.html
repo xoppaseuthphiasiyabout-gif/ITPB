@@ -1,0 +1,120 @@
+
+
+<html lang="en">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<meta name="theme-color" content="#101010">  
+<title>TPIB — Three Language Learning</title>  
+<style>  
+:root{--bg:#0d0d0f;--panel:#171719;--panel2:#202024;--gold:#d8b45a;--gold2:#f1d58b;--text:#f7f4ec;--muted:#aaa6a0;--line:#343238;--green:#83c99b;--red:#ef9292}  
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#292217 0,#0d0d0f 38%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}  
+header{padding:22px 18px 16px;border-bottom:1px solid var(--line);background:#101012eF;position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}  
+.wrap{max-width:980px;margin:auto}.brand{display:flex;align-items:center;gap:12px}.logo{width:45px;height:45px;border:1px solid var(--gold);border-radius:14px;display:grid;place-items:center;color:var(--gold);font-weight:900;letter-spacing:1px}.brand h1{font-size:22px;margin:0;letter-spacing:2px}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}  
+nav{display:flex;gap:8px;overflow:auto;padding-top:16px}nav button,.btn{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 14px;border-radius:12px;font-weight:650;white-space:nowrap;cursor:pointer}nav button.active,.btn.primary{background:var(--gold);color:#17130a;border-color:var(--gold)}  
+main{max-width:980px;margin:auto;padding:22px 16px 60px}.hero{padding:24px;border:1px solid #65532c;border-radius:22px;background:linear-gradient(125deg,#292216,#171719 65%);margin-bottom:18px}.eyebrow{color:var(--gold2);font-size:11px;letter-spacing:2px;font-weight:800}.hero h2{font-size:clamp(26px,6vw,40px);line-height:1.1;margin:10px 0}.hero p{color:#d0c9bb;max-width:590px;margin:0 0 18px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.stat{background:#0e0e10a8;border:1px solid #403727;border-radius:14px;padding:12px}.stat strong{display:block;color:var(--gold2);font-size:20px}.stat span{font-size:11px;color:var(--muted)}  
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:17px}.card h3{margin:0 0 6px}.card p{color:var(--muted);font-size:13px;line-height:1.5}.language{display:flex;align-items:center;gap:12px}.flag{font-size:30px}.gold{color:var(--gold2)}.section-head{display:flex;justify-content:space-between;align-items:end;gap:10px;margin:26px 0 12px}.section-head h2{font-size:20px;margin:0}.section-head small{color:var(--muted)}  
+select,input{width:100%;background:#101012;border:1px solid var(--line);color:var(--text);padding:12px;border-radius:11px;font:inherit;margin-top:6px}label{font-size:12px;color:var(--muted);display:block;margin:8px 0}  
+.lesson{display:flex;justify-content:space-between;align-items:center;gap:12px}.lesson .btn{font-size:12px;padding:9px 11px}.tag{font-size:10px;color:var(--gold2);border:1px solid #69552c;border-radius:20px;padding:4px 8px}  
+.hidden{display:none!important}.word{font-size:30px;font-weight:800;margin:12px 0}.translation{font-size:18px;color:var(--gold2)}.muted{color:var(--muted)}.flash{min-height:190px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(145deg,#252016,#171719);border:1px solid #5a4928;border-radius:20px;padding:24px;margin:12px 0}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.actions button{flex:1}  
+.option{display:block;width:100%;text-align:left;margin:8px 0;padding:13px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--text);cursor:pointer}.option.correct{border-color:var(--green);background:#183022}.option.wrong{border-color:var(--red);background:#351d20}  
+.progress{height:8px;background:#343238;border-radius:20px;overflow:hidden;margin:10px 0}.progress div{height:100%;width:0;background:var(--gold);transition:width .3s}  
+footer{text-align:center;color:var(--muted);font-size:12px;padding:25px 10px;border-top:1px solid var(--line)}  
+@media(min-width:700px){header{padding-left:24px;padding-right:24px}main{padding:28px 24px 70px}.hero{padding:34px}}  
+</style>  
+</head>  
+<body>  
+<header><div class="wrap">  
+  <div class="brand"><div class="logo">T</div><div><h1>TPIB</h1><p>THREE LANGUAGES · ONE LEARNING SPACE</p></div></div>  
+  <nav aria-label="Main navigation">  
+    <button class="active" data-page="home">Home</button><button data-page="lessons">Lessons</button><button data-page="flashcards">Flashcards</button><button data-page="quiz">Quiz</button><button data-page="progress">My progress</button>  
+  </nav>  
+</div></header>  
+<main>  
+<section id="home" class="page">  
+  <div class="hero"><div class="eyebrow">WELCOME TO TPIB</div><h2>Learn a language.<br><span class="gold">Open a new world.</span></h2><p>Learn English, Chinese and Lao at your own pace. Start with simple words, practise every day, and grow step by step.</p><button class="btn primary" onclick="showPage('lessons')">Explore lessons →</button>  
+    <div class="stats"><div class="stat"><strong>3</strong><span>Languages</span></div><div class="stat"><strong>All</strong><span>Learning levels</span></div><div class="stat"><strong>Free</strong><span>For everyone</span></div></div>  
+  </div>  
+  <div class="section-head"><h2>Choose your language</h2><small>Start learning today</small></div>  
+  <div class="grid">  
+    <div class="card"><div class="language"><span class="flag">🇬🇧</span><div><h3>English</h3><small class="muted">Words · Grammar · Speaking</small></div></div><p>Build everyday English from beginner to advanced.</p><button class="btn" onclick="openLessons('English')">Study English</button></div>  
+    <div class="card"><div class="language"><span class="flag">🇨🇳</span><div><h3>Chinese 中文</h3><small class="muted">汉字 · Pinyin · Conversation</small></div></div><p>Learn useful Chinese words, pinyin and sentences.</p><button class="btn" onclick="openLessons('Chinese')">Study Chinese</button></div>  
+    <div class="card"><div class="language"><span class="flag">🇱🇦</span><div><h3>Lao ລາວ</h3><small class="muted">ຄຳສັບ · ໄວຍາກອນ · ການອ່ານ</small></div></div><p>Explore Lao vocabulary, reading and sentence patterns.</p><button class="btn" onclick="openLessons('Lao')">Study Lao</button></div>  
+  </div>  
+  <div class="section-head"><h2>Your learning routine</h2></div><div class="card"><p>💡 Try a short lesson, review the flashcards, then take a quiz. Your completed lessons and quiz scores are saved on this device.</p></div>  
+</section>  
+<section id="lessons" class="page hidden">  
+  <div class="section-head"><h2>Lessons</h2><small>Choose a topic and level</small></div>  
+  <div class="grid">  
+    <div><label for="lang">Language</label><select id="lang" onchange="renderLessons()"><option>English</option><option>Chinese</option><option>Lao</option></select></div>  
+    <div><label for="level">Level</label><select id="level" onchange="renderLessons()"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></div>  
+  </div>  
+  <div id="lessonList" class="grid" style="margin-top:14px"></div>  
+  <div id="lessonDetail" class="card hidden" style="margin-top:14px"></div>  
+</section>  
+<section id="flashcards" class="page hidden">  
+  <div class="section-head"><h2>Flashcards</h2><small>Tap “Show answer” to practise</small></div>  
+  <label for="flashLang">Language</label><select id="flashLang" onchange="resetFlash()"><option>English</option><option>Chinese</option><option>Lao</option></select>  
+  <div class="flash"><div class="eyebrow" id="flashCount">CARD 1</div><div class="word" id="flashWord">Hello</div><div class="translation hidden" id="flashAnswer">ສະບາຍດີ</div><p class="muted" id="flashHint">Try to remember the meaning.</p></div>  
+  <div class="actions"><button class="btn" onclick="prevFlash()">← Previous</button><button class="btn primary" id="revealBtn" onclick="revealFlash()">Show answer</button><button class="btn" onclick="nextFlash()">Next →</button></div>  
+</section>  
+<section id="quiz" class="page hidden">  
+  <div class="section-head"><h2>Quick quiz</h2><small>Check what you remember</small></div>  
+  <label for="quizLang">Language</label><select id="quizLang" onchange="startQuiz()"><option>English</option><option>Chinese</option><option>Lao</option></select>  
+  <div class="card"><div class="muted" id="quizCount">Question 1 of 3</div><div class="progress"><div id="quizBar"></div></div><h3 id="question">What does “Hello” mean?</h3><div id="options"></div><p id="feedback" aria-live="polite" class="gold"></p><button class="btn primary hidden" id="nextQuestion" onclick="advanceQuiz()">Next question →</button></div>  
+</section>  
+<section id="progress" class="page hidden">  
+  <div class="section-head"><h2>My progress</h2><small>Saved on this device</small></div>  
+  <div class="grid"><div class="card"><div class="muted">Lessons completed</div><div class="word gold" id="completedCount">0</div></div><div class="card"><div class="muted">Quiz attempts</div><div class="word gold" id="quizAttempts">0</div></div><div class="card"><div class="muted">Best quiz score</div><div class="word gold" id="bestScore">—</div></div></div>  
+  <div class="card" style="margin-top:14px"><h3>Keep going!</h3><p>Little steps every day make a big difference. Finish a lesson and try another quiz to build your progress.</p><button class="btn" onclick="showPage('lessons')">Continue learning</button></div>  
+</section>  
+</main>  
+<footer>TPIB · Learn English · 中文 · ພາສາລາວ<br>Free learning space · Progress stays in this browser on this device</footer>  
+<script>  
+const data={  
+English:[  
+ {title:"Greetings",level:"Beginner",desc:"Simple greetings for everyday conversations.",items:[["Hello","ສະບາຍດີ"],["Good morning","ສະບາຍດີຕອນເຊົ້າ"],["Thank you","ຂອບໃຈ"],["Goodbye","ລາກ່ອນ"]],example:"Hello! How are you? — I am fine, thank you."},  
+ {title:"Daily vocabulary",level:"Beginner",desc:"Useful words for daily life.",items:[["Water","ນ້ຳ"],["Food","ອາຫານ"],["House","ເຮືອນ"],["Friend","ໝູ່"]],example:"I drink water every day."},  
+ {title:"Present simple",level:"Intermediate",desc:"Use the present simple for routines and facts.",items:[["I study","ຂ້ອຍຮຽນ"],["She works","ລາວເຮັດວຽກ"],["They play","ພວກເຂົາຫຼິ້ນ"]],example:"I study English every day. Add -s/-es with he, she or it."},  
+ {title:"Giving your opinion",level:"Advanced",desc:"Share ideas politely and clearly.",items:[["In my opinion","ໃນຄວາມຄິດຂອງຂ້ອຍ"],["I agree","ຂ້ອຍເຫັນດີ"],["However","ແນວໃດກໍຕາມ"]],example:"In my opinion, learning languages creates opportunities."}  
+],  
+Chinese:[  
+ {title:"问候 Greetings",level:"Beginner",desc:"Start a simple conversation in Chinese.",items:[["你好 (nǐ hǎo)","ສະບາຍດີ"],["谢谢 (xièxie)","ຂອບໃຈ"],["再见 (zàijiàn)","ລາກ່ອນ"],["早上好 (zǎoshang hǎo)","ສະບາຍດີຕອນເຊົ້າ"]],example:"你好！你好吗？(Nǐ hǎo! Nǐ hǎo ma?) — ສະບາຍດີ! ເຈົ້າສະບາຍດີບໍ?"},  
+ {title:"Everyday words",level:"Beginner",desc:"Learn common Chinese words with pinyin.",items:[["水 (shuǐ)","ນ້ຳ"],["书 (shū)","ປຶ້ມ"],["朋友 (péngyou)","ໝູ່"],["学校 (xuéxiào)","ໂຮງຮຽນ"]],example:"我学习中文。(Wǒ xuéxí Zhōngwén.) — ຂ້ອຍຮຽນພາສາຈີນ."},  
+ {title:"Sentence patterns",level:"Intermediate",desc:"Build useful sentences with simple patterns.",items:[["我是学生 (wǒ shì xuésheng)","ຂ້ອຍເປັນນັກຮຽນ"],["我喜欢 (wǒ xǐhuan)","ຂ້ອຍມັກ"],["因为 (yīnwèi)","ເພາະວ່າ"]],example:"我喜欢学习中文。(Wǒ xǐhuan xuéxí Zhōngwén.) — ຂ້ອຍມັກຮຽນພາສາຈີນ."},  
+ {title:"Expressing ideas",level:"Advanced",desc:"Connect ideas and give reasons.",items:[["虽然 (suīrán)","ເຖິງແມ່ນວ່າ"],["但是 (dànshì)","ແຕ່ວ່າ"],["因此 (yīncǐ)","ດັ່ງນັ້ນ"]],example:"虽然很难，但是我会继续学习。— ເຖິງຈະຍາກ ແຕ່ຂ້ອຍຈະຮຽນຕໍ່."}  
+],  
+Lao:[  
+ {title:"ຄຳທັກທາຍ",level:"Beginner",desc:"ຄຳທັກທາຍທີ່ໃຊ້ໃນຊີວິດປະຈຳວັນ.",items:[["ສະບາຍດີ","Hello"],["ຂອບໃຈ","Thank you"],["ຂໍໂທດ","Sorry / Excuse me"],["ລາກ່ອນ","Goodbye"]],example:"ສະບາຍດີ! ເຈົ້າສະບາຍດີບໍ?"},  
+ {title:"ຄຳສັບປະຈຳວັນ",level:"Beginner",desc:"ຄຳສັບງ່າຍໆທີ່ໃຊ້ທຸກມື້.",items:[["ນ້ຳ","Water"],["ເຂົ້າ","Rice"],["ເຮືອນ","House"],["ໝູ່","Friend"]],example:"ຂ້ອຍດື່ມນ້ຳ."},  
+ {title:"ການສ້າງປະໂຫຍກ",level:"Intermediate",desc:"ຝຶກລຽງຄຳໃຫ້ເປັນປະໂຫຍກ.",items:[["ຂ້ອຍຮຽນ","I study"],["ລາວເຮັດວຽກ","He/She works"],["ພວກເຮົາໄປ","We go"]],example:"ຂ້ອຍຮຽນພາສາອັງກິດ."},  
+ {title:"ສຳນວນ ແລະ ການຂຽນ",level:"Advanced",desc:"ຝຶກສຳນວນ ແລະ ຂຽນໃຫ້ຊັດເຈນ.",items:[["ໃນຄວາມຄິດຂອງຂ້ອຍ","In my opinion"],["ຢ່າງໃດກໍຕາມ","However"],["ດັ່ງນັ້ນ","Therefore"]],example:"ໃນຄວາມຄິດຂອງຂ້ອຍ ການຮຽນພາສາໃໝ່ແມ່ນມີປະໂຫຍດ."}  
+]};  
+let completed=JSON.parse(localStorage.getItem("tpib_completed")||"[]"), attempts=Number(localStorage.getItem("tpib_attempts")||0), best=Number(localStorage.getItem("tpib_best")||0);  
+function showPage(id){document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));if(id==="progress")renderProgress();if(id==="lessons")renderLessons()}  
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));  
+function openLessons(lang){document.getElementById("lang").value=lang;showPage("lessons")}  
+function renderLessons(){let lang=document.getElementById("lang").value,level=document.getElementById("level").value;let list=data[lang].filter(x=>x.level===level);document.getElementById("lessonDetail").classList.add("hidden");document.getElementById("lessonList").innerHTML=list.map((x,i)=>`<div class="card"><div class="lesson"><span class="tag">${x.level}</span><span class="muted">📘</span></div><h3>${x.title}</h3><p>${x.desc}</p><button class="btn primary" onclick="showLesson('${lang}', '${x.title.replace(/'/g,"\\'")}')">Open lesson →</button></div>`).join("")||'<div class="card">No lessons in this level yet.</div>'}  
+function showLesson(lang,title){let x=data[lang].find(a=>a.title===title);let d=document.getElementById("lessonDetail");d.classList.remove("hidden");d.innerHTML=`<div class="eyebrow">${lang.toUpperCase()} · ${x.level.toUpperCase()}</div><h2>${x.title}</h2><p>${x.desc}</p><h3>Key words</h3>${x.items.map(a=>`<p><strong>${a[0]}</strong> <span class="gold">— ${a[1]}</span></p>`).join("")}<div class="card" style="background:#101012"><strong>Example</strong><p>${x.example}</p></div><button class="btn primary" onclick="markComplete('${lang}:${title.replace(/'/g,"\\'")}')">✓ Mark as completed</button>`;d.scrollIntoView({behavior:"smooth",block:"start"})}  
+function markComplete(id){if(!completed.includes(id)){completed.push(id);localStorage.setItem("tpib_completed",JSON.stringify(completed))}alert("Lesson completed! Great work.");renderProgress()}  
+let flashIndex=0,flashShown=false;  
+function getFlash(){return data[document.getElementById("flashLang").value].flatMap(x=>x.items)}  
+function resetFlash(){flashIndex=0;drawFlash()}  
+function drawFlash(){let a=getFlash();flashIndex=(flashIndex+a.length)%a.length;document.getElementById("flashCount").textContent=`CARD ${flashIndex+1} OF ${a.length}`;document.getElementById("flashWord").textContent=a[flashIndex][0];document.getElementById("flashAnswer").textContent=a[flashIndex][1];document.getElementById("flashAnswer").classList.toggle("hidden",!flashShown);document.getElementById("flashHint").textContent=flashShown?"Review the meaning, then move to the next card.":"Try to remember the meaning.";document.getElementById("revealBtn").textContent=flashShown?"Hide answer":"Show answer"}  
+function revealFlash(){flashShown=!flashShown;drawFlash()}function nextFlash(){flashIndex++;flashShown=false;drawFlash()}function prevFlash(){flashIndex--;flashShown=false;drawFlash()}  
+const quizBank={  
+English:[["What does “Thank you” mean?",["ຂອບໃຈ","ລາກ່ອນ","ນ້ຳ"],0],["Choose the correct sentence.",["She work every day.","She works every day.","She working every day."],1],["What is the opposite of “early”?",["Fast","Late","Small"],1]],  
+Chinese:[["What does 你好 (nǐ hǎo) mean?",["Goodbye","Hello","Thank you"],1],["What is the pinyin for 水?",["shuǐ","shū","shuō"],0],["谢谢 (xièxie) means…",["Sorry","Please","Thank you"],2]],  
+Lao:[["What does “ຂອບໃຈ” mean?",["Hello","Thank you","Goodbye"],1],["Which means “water” in Lao?",["ເຮືອນ","ນ້ຳ","ໝູ່"],1],["What does “ລາກ່ອນ” mean?",["Goodbye","Sorry","Welcome"],0]]  
+};let qIndex=0,qScore=0,qAnswered=false;  
+function startQuiz(){qIndex=0;qScore=0;qAnswered=false;drawQuestion()}  
+function drawQuestion(){let q=quizBank[document.getElementById("quizLang").value][qIndex];document.getElementById("quizCount").textContent=`Question ${qIndex+1} of 3`;document.getElementById("quizBar").style.width=`${qIndex/3*100}%`;document.getElementById("question").textContent=q[0];document.getElementById("feedback").textContent="";document.getElementById("nextQuestion").classList.add("hidden");document.getElementById("options").innerHTML=q[1].map((o,i)=>`<button class="option" onclick="answerQuiz(${i})">${o}</button>`).join("");qAnswered=false}  
+function answerQuiz(i){if(qAnswered)return;qAnswered=true;let q=quizBank[document.getElementById("quizLang").value][qIndex],buttons=[...document.querySelectorAll(".option")];buttons[q[2]].classList.add("correct");if(i===q[2]){qScore++;document.getElementById("feedback").textContent="Correct! Well done."; }else{buttons[i].classList.add("wrong");document.getElementById("feedback").textContent="Not quite. The correct answer is highlighted."}document.getElementById("nextQuestion").classList.remove("hidden");document.getElementById("nextQuestion").textContent=qIndex===2?"See my score":"Next question →"}  
+function advanceQuiz(){if(qIndex<2){qIndex++;drawQuestion()}else{attempts++;best=Math.max(best,Math.round(qScore/3*100));localStorage.setItem("tpib_attempts",attempts);localStorage.setItem("tpib_best",best);document.getElementById("quizBar").style.width="100%";document.getElementById("question").textContent=`You scored ${qScore} out of 3!`;document.getElementById("options").innerHTML='<p class="gold">Keep practising — every try helps you learn.</p>';document.getElementById("feedback").textContent="Your result has been saved on this device.";document.getElementById("nextQuestion").textContent="Try again";document.getElementById("nextQuestion").onclick=()=>{document.getElementById("nextQuestion").onclick=advanceQuiz;startQuiz()}}}  
+function renderProgress(){document.getElementById("completedCount").textContent=completed.length;document.getElementById("quizAttempts").textContent=attempts;document.getElementById("bestScore").textContent=attempts?best+"%":"—"}  
+renderLessons();drawFlash();startQuiz();  
+</script>  
+</body></html>'''  
+path = Path("/mnt/data/TPIB_language_learning_website.html")  
+path.write_text(html, encoding="utf-8")  
+print(f"Created: {path} ({path.stat().st_size:,} bytes)")
