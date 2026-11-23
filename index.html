@@ -113,7 +113,18 @@ function answerQuiz(i){if(qAnswered)return;qAnswered=true;let q=quizBank[documen
 function advanceQuiz(){if(qIndex<2){qIndex++;drawQuestion()}else{attempts++;best=Math.max(best,Math.round(qScore/3*100));localStorage.setItem("tpib_attempts",attempts);localStorage.setItem("tpib_best",best);document.getElementById("quizBar").style.width="100%";document.getElementById("question").textContent=`You scored ${qScore} out of 3!`;document.getElementById("options").innerHTML='<p class="gold">Keep practising — every try helps you learn.</p>';document.getElementById("feedback").textContent="Your result has been saved on this device.";document.getElementById("nextQuestion").textContent="Try again";document.getElementById("nextQuestion").onclick=()=>{document.getElementById("nextQuestion").onclick=advanceQuiz;startQuiz()}}}  
 function renderProgress(){document.getElementById("completedCount").textContent=completed.length;document.getElementById("quizAttempts").textContent=attempts;document.getElementById("bestScore").textContent=attempts?best+"%":"—"}  
 renderLessons();drawFlash();startQuiz();  
-</script>  function speakText(t){
+</script>  function speakText(t){setInterval(()=>{
+  document.querySelectorAll('.word').forEach(w=>{
+    if(!w.querySelector('.spk')){
+      let b=document.createElement('button');
+      b.textContent=' 🔊';
+      b.className='spk';
+      b.style='background:none;border:none;font-size:22px';
+      b.onclick=(e)=>{e.stopPropagation(); speakText(w.textContent.replace('🔊',''));};
+      w.appendChild(b);
+    }
+  });
+},1000);
   speechSynthesis.cancel();
   let u=new SpeechSynthesisUtterance(t);
   u.lang='en-US'; u.rate=0.8;
