@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vocab 10000</title>
+<style>
+body{font-family:sans-serif;background:#f0f4ff;margin:0;padding:10px}
+h1{text-align:center;color:#2563eb}
+input{width:95%;padding:12px;font-size:16px;border-radius:10px;border:1px solid #ccc}
+.tabs{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+button{padding:10px 12px;border:none;border-radius:10px;background:#2563eb;color:#fff}
+button.active{background:#f59e0b}
+.card{background:#fff;padding:14px;margin:8px 0;border-radius:14px}
+.word{font-size:22px;font-weight:bold}
+.mean{color:#059669}
+.ex{color:#555}
+.spk{background:none;font-size:24px}
+</style>
+</head>
+<body>
+<h1>📚 Vocab 10,000</h1>
+<input id="search" placeholder="🔍 ຄົ້ນຫາ..." oninput="render()">
+<div class="tabs" id="levels"></div>
+<div id="list">ກຳລັງໂຫຼດ 10,000 ຄຳ...</div>
+<script>
+let ALL=[];let curLevel=1;
+async function load(){
+let r=await fetch('https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-usa.txt');
+let t=await r.text();
+let words=t.split('\n').filter(Boolean).slice(0,10000);
+ALL=words.map((w,i)=>({w:w,level:Math.floor(i/1000)+1,mean:'ຄຳສັບທີ '+(i+1),ex:'Example: I use the word "'+w+'" every day.'}));
+let lao={hello:'ສະບາຍດີ',love:'ຄວາມຮັກ',book:'ປຶ້ມ',water:'ນ້ຳ',food:'ອາຫານ',school:'ໂຮງຮຽນ',friend:'ໝູ່',family:'ຄອບຄົວ',house:'ເຮືອນ',dog:'ໝາ',cat:'ແມວ',happy:'ມີຄວາມສຸກ',good:'ດີ',beautiful:'ສວຍງາມ'};
+ALL.forEach(o=>{if(lao[o.w])o.mean=lao[o.w]});
+let h='';for(let i=1;i<=10;i++)h+=`<button onclick="setLevel(${i},this)">Level ${i}</button>`;
+document.getElementById('levels').innerHTML=h;render();
+}
+function setLevel(l,b){curLevel=l;document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');render();}
+function speakText(t){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=0.8;speechSynthesis.speak(u);}
+function render(){
+let q=document.getElementById('search').value.toLowerCase();
+let list=ALL.filter(o=>o.level===curLevel);
+if(q)list=ALL.filter(o=>o.w.includes(q));
+list=list.slice(0,100);
