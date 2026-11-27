@@ -27,13 +27,12 @@ async function load(){
 try{
 let r=await fetch('https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt');
 let t=await r.text();
-let words=t.split('\n').map(s=>s.trim()).filter(w=>w.length>=3&&w.length<=8);
+let words=t.split('\n').map(s=>s.trim()).filter(w=>w.length>=4&&w.length<=7&&/^[a-z]+$/.test(w));
+// ສຸ່ມໃຫ້ໄດ້ຄຳຫຼາກຫຼາຍ ບໍ່ເອົາແຕ່ aaa
+for(let i=words.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[words[i],words[j]]=[words[j],words[i]];}
 words=words.slice(0,10000);
 ALL=words.map((w,i)=>({w:w,level:Math.floor(i/1000)+1,mean:'ຄຳສັບທີ '+(i+1),ex:'Example: I use the word "'+w+'" every day.'}));
-}catch(e){
-let base="the of and to in is you that it he was for on are as with his they I at be this have from or one had by word but not what all were we when your can said there use an each which she do how their if will up other about out many then them these so some her would make like him into time has look two more write go see number no way could people my than first water been call who oil its now find long down day did get come made may part".split(" ");
-ALL=base.map((w,i)=>({w:w,level:1,mean:'ຄຳສັບທີ '+(i+1),ex:'Example: I use the word "'+w+'" every day.'}));
-}
+}catch(e){}
 let h='';for(let i=1;i<=10;i++)h+=`<button onclick="setLevel(${i},this)">Level ${i}</button>`;
 document.getElementById('levels').innerHTML=h;render();
 }
@@ -44,9 +43,9 @@ let q=document.getElementById('search').value.toLowerCase();
 let list=ALL.filter(o=>o.level===curLevel);
 if(q)list=ALL.filter(o=>o.w.includes(q));
 list=list.slice(0,100);
-document.getElementById('list').innerHTML=list.map(o=>`<div class="card"><div class="word" onclick="speakText('${o.w}')">${o.w} 👆 ກົດເພື່ອຟັງສຽງ</div><div class="mean">${o.mean}</div><div class="ex">${o.ex}</div></div>`).join('');
+document.getElementById('list').innerHTML=list.map(o=>`<div class="card"><div class="word" onclick="speakText('${o.w}')">${o.w}</div><div class="mean">${o.mean}</div><div class="ex">${o.ex}</div></div>`).join('');
 }
 load();
 </script>
 </body>
-</html>
+  </html>
