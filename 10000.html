@@ -6,19 +6,19 @@
 <title>Vocab 10000</title>
 <style>
 body{font-family:sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);margin:0;padding:12px;min-height:100vh}
-h1{text-align:center;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.3)}
+h1{text-align:center;color:#fff}
 .top{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.top button{padding:12px 18px;border-radius:20px;border:none;font-weight:bold;background:#fff;color:#667eea;box-shadow:0 4px 10px rgba(0,0,0,.2)}
+.top button{padding:12px 18px;border-radius:20px;border:none;font-weight:bold;background:#fff;color:#667eea}
 .top button.active{background:#f59e0b;color:#fff}
 input{width:92%;padding:13px;font-size:16px;border-radius:20px;border:none;margin:10px 0}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:8px 0}
 .tabs button{padding:8px 12px;border-radius:20px;border:none;background:rgba(255,255,255,.9)}
 .tabs button.active{background:#f59e0b;color:#fff}
-.card{background:#fff;padding:16px;margin:8px 0;border-radius:18px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
-.word{font-size:26px;font-weight:bold;color:#1e293b;cursor:pointer}
-.mean{color:#059669;font-size:17px}.ex{color:#64748b}
+.card{background:#fff;padding:16px;margin:8px 0;border-radius:18px}
+.word{font-size:26px;font-weight:bold;cursor:pointer}
+.mean{color:#dc2626;font-size:19px;font-weight:bold}
+.ex{color:#64748b}
 .quiz{background:#fff;padding:20px;border-radius:20px;text-align:center}
-.quiz h2{font-size:32px}
 .opt{display:block;width:100%;padding:14px;margin:8px 0;border-radius:14px;border:2px solid #e2e8f0;background:#f8fafc;font-size:17px}
 .score{color:#fff;text-align:center;font-weight:bold}
 </style>
@@ -39,18 +39,22 @@ input{width:92%;padding:13px;font-size:16px;border-radius:20px;border:none;margi
 <div id="quizBox" style="display:none"></div>
 <script>
 let ALL=[];let curLevel=1;let score=0;let streak=0;let curQ=null;let mode='learn';
+let cache={};
+let DICT={hello:"ສະບາຍດີ",good:"ດີ",bad:"ບໍ່ດີ",water:"ນ້ຳ",food:"ອາຫານ",house:"ເຮືອນ",school:"ໂຮງຮຽນ",book:"ປຶ້ມ",dog:"ໝາ",cat:"ແມວ",love:"ຮັກ",happy:"ມີຄວາມສຸກ",sad:"ເສົ້າ",big:"ໃຫຍ່",small:"ນ້ອຍ",day:"ມື້",night:"ຄືນ",sun:"ຕາເວັນ",moon:"ເດືອນ",man:"ຜູ້ຊາຍ",woman:"ຜູ້ຍິງ",child:"ເດັກນ້ອຍ",friend:"ໝູ່",family:"ຄອບຄົວ",time:"ເວລາ",life:"ຊີວິດ",world:"ໂລກ",work:"ວຽກ",play:"ຫຼິ້ນ",eat:"ກິນ",drink:"ດື່ມ",sleep:"ນອນ",run:"ແລ່ນ",walk:"ຍ່າງ",talk:"ເວົ້າ",read:"ອ່ານ",write:"ຂຽນ",learn:"ຮຽນຮູ້",teach:"ສອນ",help:"ຊ່ວຍ",give:"ໃຫ້",take:"ເອົາ",come:"ມາ",go:"ໄປ",see:"ເຫັນ",hear:"ໄດ້ຍິນ",know:"ຮູ້",think:"ຄິດ",feel:"ຮູ້ສຶກ",make:"ເຮັດ",open:"ເປີດ",close:"ປິດ",new:"ໃໝ່",old:"ເກົ່າ",hot:"ຮ້ອນ",cold:"ໜາວ",fast:"ໄວ",slow:"ຊ້າ",easy:"ງ່າຍ",hard:"ຍາກ"};
 function speakText(t){
+  try{let u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=0.8;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}
+  setTimeout(()=>{if(!speechSynthesis.speaking){let a=new Audio('https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=en&client=tw-ob');a.play().catch(()=>{});}},400);
+}
+async function getLao(w){
+  if(DICT[w]) return DICT[w];
+  if(cache[w]) return cache[w];
   try{
-    let u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=0.8;
-    u.onend=()=>{};speechSynthesis.cancel();speechSynthesis.speak(u);
+    let r=await fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(w)+'&langpair=en|lo');
+    let j=await r.json();
+    let t=j.responseData.translatedText||'';
+    if(t && t.toLowerCase()!==w.toLowerCase()){cache[w]=t;return t;}
   }catch(e){}
-  // ສຳຮອງສຳລັບ Messenger - ໃຊ້ສຽງຈາກ Google
-  setTimeout(()=>{
-    if(!speechSynthesis.speaking){
-      let a=new Audio('https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=en&client=tw-ob');
-      a.play().catch(()=>{});
-    }
-  },400);
+  return 'ແປວ່າ: '+w;
 }
 async function load(){
 try{
@@ -59,46 +63,39 @@ let t=await r.text();
 let words=t.split('\n').map(s=>s.trim()).filter(w=>w.length>=4&&w.length<=7&&/^[a-z]+$/.test(w));
 for(let i=words.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[words[i],words[j]]=[words[j],words[i]];}
 words=words.slice(0,10000);
-ALL=words.map((w,i)=>({w:w,level:Math.floor(i/1000)+1,mean:'ຄຳສັບທີ '+(i+1),ex:'Example: I use "'+w+'" every day.'}));
+ALL=words.map((w,i)=>({w:w,level:Math.floor(i/1000)+1,ex:'Example: I use "'+w+'" every day.'}));
 }catch(e){}
 let h='';for(let i=1;i<=10;i++)h+=`<button onclick="setLevel(${i},this)">Level ${i}</button>`;
 document.getElementById('levels').innerHTML=h;render();newQuiz();
 }
-function showMode(m,b){
-mode=m;document.querySelectorAll('.top button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
-document.getElementById('learnBox').style.display=m==='learn'?'block':'none';
-document.getElementById('quizBox').style.display=m==='learn'?'none':'block';
-if(m!=='learn')newQuiz();
-}
+function showMode(m,b){mode=m;document.querySelectorAll('.top button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('learnBox').style.display=m==='learn'?'block':'none';document.getElementById('quizBox').style.display=m==='learn'?'none':'block';if(m!=='learn')newQuiz();}
 function setLevel(l,b){curLevel=l;document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');render();}
-function render(){
+async function render(){
 let q=document.getElementById('search').value.toLowerCase();
 let list=ALL.filter(o=>o.level===curLevel);
 if(q)list=ALL.filter(o=>o.w.includes(q));
 list=list.slice(0,50);
-document.getElementById('list').innerHTML=list.map(o=>`<div class="card"><div class="word" onclick="speakText('${o.w}')">🔊 ${o.w}</div><div class="mean">${o.mean}</div><div class="ex">${o.ex}</div><div style="color:#f59e0b">👆 ກົດໃສ່ຄຳສັບເພື່ອຟັງສຽງ</div></div>`).join('');
+document.getElementById('list').innerHTML=list.map((o,idx)=>`<div class="card"><div class="word" onclick="speakText('${o.w}')">🔊 ${o.w}</div><div class="mean" id="mean-${idx}">⏳ ກຳລັງແປ...</div><div class="ex">${o.ex}</div></div>`).join('');
+for(let idx=0;idx<list.length;idx++){
+  let lao=await getLao(list[idx].w);
+  let el=document.getElementById('mean-'+idx);
+  if(el) el.innerText='🇱🇦 '+lao;
 }
-function newQuiz(){
+}
+async function newQuiz(){
 if(ALL.length<4)return;
 let idx=Math.floor(Math.random()*ALL.length);curQ=ALL[idx];
-let opts=[curQ.w];
-while(opts.length<4){let w=ALL[Math.floor(Math.random()*ALL.length)].w;if(!opts.includes(w))opts.push(w);}
+let lao=await getLao(curQ.w);curQ.lao=lao;
+let opts=[lao];
+while(opts.length<4){let w=ALL[Math.floor(Math.random()*ALL.length)].w;let l=await getLao(w);if(!opts.includes(l))opts.push(l);}
 opts.sort(()=>Math.random()-0.5);
 let isGame=mode==='game';
-document.getElementById('quizBox').innerHTML=`<div class="quiz">
-<div style="font-size:14px;color:#888">${isGame?'🎮 ເກມ - ທາຍໃຫ້ໄວ!':'🎯 ຕອບຄຳຖາມ'}</div>
-<h2 onclick="speakText('${curQ.w}')">🔊 ${curQ.w}</h2>
-<p>ຄຳນີ້ແປວ່າຫຍັງ? ກົດເພື່ອຟັງສຽງ 👆</p>
-<p style="color:#059669">${curQ.mean} - ${curQ.ex}</p>
-${opts.map(o=>`<button class="opt" onclick="checkAns('${o}')">${o}</button>`).join('')}
-<div id="qResult"></div>
-<button style="padding:12px 20px;border:none;border-radius:14px;background:#2563eb;color:#fff;margin-top:10px" onclick="newQuiz()">ຂໍ້ຕໍ່ໄປ ➡️</button>
-</div>`;
+document.getElementById('quizBox').innerHTML=`<div class="quiz"><div>${isGame?'🎮 ເກມ - ທາຍໃຫ້ໄວ!':'🎯 ຕອບຄຳຖາມ'}</div><h2 style="font-size:32px" onclick="speakText('${curQ.w}')">🔊 ${curQ.w}</h2><p>ຄຳນີ້ແປເປັນລາວວ່າຫຍັງ?</p>${opts.map(o=>`<button class="opt" onclick="checkAns('${o.replace(/'/g,"")}')">${o}</button>`).join('')}<div id="qResult"></div><button style="padding:12px 20px;border:none;border-radius:14px;background:#2563eb;color:#fff;margin-top:10px" onclick="newQuiz()">ຂໍ້ຕໍ່ໄປ ➡️</button></div>`;
 speakText(curQ.w);
 }
 function checkAns(ans){
-if(ans===curQ.w){score+=10;streak++;document.getElementById('qResult').innerHTML='<h3 style="color:green">✅ ຖືກຕ້ອງ! +10 ຄະແນນ 🎉</h3>';speakText('Correct! Great job');}
-else{streak=0;document.getElementById('qResult').innerHTML='<h3 style="color:red">❌ ຜິດ! ຄຳຕອບແມ່ນ: '+curQ.w+'</h3>';}
+if(ans===curQ.lao){score+=10;streak++;document.getElementById('qResult').innerHTML='<h3 style="color:green">✅ ຖືກຕ້ອງ! +10 🎉</h3>';speakText('Correct! Great job');}
+else{streak=0;document.getElementById('qResult').innerHTML='<h3 style="color:red">❌ ຜິດ! ຄຳຕອບແມ່ນ: '+curQ.lao+'</h3>';}
 document.getElementById('score').innerText='⭐ ຄະແນນ: '+score+' | 🔥 ຕອບຖືກຕິດຕໍ່ກັນ: '+streak;
 setTimeout(newQuiz,1500);
 }
