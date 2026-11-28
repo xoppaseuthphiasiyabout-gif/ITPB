@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vocab Elementary</title>
+<title>Vocab 1000 - Elementary</title>
 <style>
 body{font-family:sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);margin:0;padding:12px;min-height:100vh}
 h1{text-align:center;color:#fff}
@@ -21,10 +21,12 @@ input{width:92%;padding:13px;font-size:16px;border-radius:20px;border:none;margi
 .quiz{background:#fff;padding:20px;border-radius:20px;text-align:center}
 .opt{display:block;width:100%;padding:14px;margin:8px 0;border-radius:14px;border:2px solid #e2e8f0;background:#f8fafc;font-size:17px}
 .score{color:#fff;text-align:center;font-weight:bold}
+.info{color:#fff;text-align:center}
 </style>
 </head>
 <body>
-<h1>📚 Vocab Elementary</h1>
+<h1>📚 Vocab 1000</h1>
+<div class="info" id="counts">🟢 Beginner: 10 | 🔵 Elementary: 990</div>
 <div class="score" id="score">⭐ ຄະແນນ: 0 | 🔥 ຖືກຕິດຕໍ່ກັນ: 0</div>
 <div class="top">
 <button class="active" onclick="showMode('learn',this)">📖 ຮຽນ</button>
@@ -34,197 +36,96 @@ input{width:92%;padding:13px;font-size:16px;border-radius:20px;border:none;margi
 <div id="learnBox">
 <input id="search" placeholder="🔍 ຄົ້ນຫາ..." oninput="render()">
 <div class="tabs" id="levels"></div>
-<div id="list"></div>
+<div id="list">ກຳລັງໂຫຼດ 990 ຄຳ...</div>
 </div>
 <div id="quizBox" style="display:none"></div>
 <script>
-let DATA=[
-["hello","ສະບາຍດີ","Hello, how are you?","Beginner"],
-["hi","ສະບາຍດີ","Hi, my friend.","Beginner"],
-["goodbye","ລາກ່ອນ","Goodbye, see you.","Beginner"],
-["yes","ແມ່ນ","Yes, I do.","Beginner"],
-["no","ບໍ່","No, I don't.","Beginner"],
-["please","ກະລຸນາ","Please help me.","Beginner"],
-["thanks","ຂອບໃຈ","Thanks a lot.","Beginner"],
-["sorry","ຂໍໂທດ","Sorry, I am late.","Beginner"],
-["one","ໜຶ່ງ","One apple.","Beginner"],
-["two","ສອງ","Two apples.","Beginner"],
-["three","ສາມ","Three apples.","Beginner"],
-["four","ສີ່","Four apples.","Beginner"],
-["five","ຫ້າ","Five apples.","Beginner"],
-["six","ຫົກ","Six apples.","Beginner"],
-["seven","ເຈັດ","Seven apples.","Beginner"],
-["eight","ແປດ","Eight apples.","Beginner"],
-["nine","ເກົ້າ","Nine apples.","Beginner"],
-["ten","ສິບ","Ten apples.","Beginner"],
-["red","ສີແດງ","Red is my favorite.","Beginner"],
-["blue","ສີຟ້າ","The sky is blue.","Beginner"],
-["green","ສີຂຽວ","The tree is green.","Beginner"],
-["yellow","ສີເຫຼືອງ","The sun is yellow.","Beginner"],
-["white","ສີຂາວ","The paper is white.","Beginner"],
-["black","ສີດຳ","My hair is black.","Beginner"],
-["big","ໃຫຍ່","It is big.","Beginner"],
-["small","ນ້ອຍ","It is small.","Beginner"],
-["good","ດີ","This is good.","Beginner"],
-["bad","ບໍ່ດີ","This is bad.","Beginner"],
-["happy","ມີຄວາມສຸກ","I am happy.","Beginner"],
-["sad","ເສົ້າ","I am sad.","Beginner"],
-["teacher","ຄູ","My teacher is good.","Elementary"],
-["student","ນັກຮຽນ","I am a student.","Elementary"],
-["classroom","ຫ້ອງຮຽນ","This is my classroom.","Elementary"],
-["school","ໂຮງຮຽນ","I go to school.","Elementary"],
-["pencil","ສໍ","I have a pencil.","Elementary"],
-["pen","ປາກກາ","I write with a pen.","Elementary"],
-["eraser","ຢາງລົບ","I need an eraser.","Elementary"],
-["ruler","ໄມ້ບັນທັດ","I use a ruler.","Elementary"],
-["notebook","ປຶ້ມຂຽນ","I write in my notebook.","Elementary"],
-["book","ປຶ້ມ","I read a book.","Elementary"],
-["bag","ກະເປົ໋າ","My bag is heavy.","Elementary"],
-["desk","ໂຕະຮຽນ","Sit at your desk.","Elementary"],
-["chair","ຕັ່ງ","Sit on the chair.","Elementary"],
-["door","ປະຕູ","Open the door.","Elementary"],
-["window","ປ່ອງຢ້ຽມ","Open the window.","Elementary"],
-["board","ກະດານ","Look at the board.","Elementary"],
-["lesson","ບົດຮຽນ","Today's lesson is fun.","Elementary"],
-["homework","ການບ້ານ","Do your homework.","Elementary"],
-["exam","ສອບເສັງ","I have an exam.","Elementary"],
-["question","ຄຳຖາມ","Ask a question.","Elementary"],
-["answer","ຄຳຕອບ","Give an answer.","Elementary"],
-["read","ອ່ານ","I read a book.","Elementary"],
-["write","ຂຽນ","I write my name.","Elementary"],
-["listen","ຟັງ","Listen to me.","Elementary"],
-["speak","ເວົ້າ","Speak slowly.","Elementary"],
-["dog","ໝາ","I have a dog.","Elementary"],
-["cat","ແມວ","The cat is cute.","Elementary"],
-["bird","ນົກ","The bird flies.","Elementary"],
-["fish","ປາ","Fish swims.","Elementary"],
-["chicken","ໄກ່","The chicken is white.","Elementary"],
-["pig","ໝູ","The pig is fat.","Elementary"],
-["cow","ງົວ","The cow eats grass.","Elementary"],
-["buffalo","ຄວາຍ","The buffalo is big.","Elementary"],
-["elephant","ຊ້າງ","The elephant is big.","Elementary"],
-["monkey","ລີງ","The monkey is funny.","Elementary"],
-["snake","ງູ","The snake is long.","Elementary"],
-["frog","ກົບ","The frog jumps.","Elementary"],
-["butterfly","ຜີເສື້ອ","The butterfly is beautiful.","Elementary"],
-["bee","ເຜິ້ງ","The bee flies.","Elementary"],
-["ant","ມົດ","The ant is small.","Elementary"],
-["head","ຫົວ","This is my head.","Elementary"],
-["eye","ຕາ","I have two eyes.","Elementary"],
-["nose","ດັງ","This is my nose.","Elementary"],
-["mouth","ປາກ","Open your mouth.","Elementary"],
-["ear","ຫູ","I have two ears.","Elementary"],
-["hand","ມື","Wash your hands.","Elementary"],
-["foot","ຕີນ","My foot hurts.","Elementary"],
-["leg","ຂາ","My leg is long.","Elementary"],
-["arm","ແຂນ","Raise your arm.","Elementary"],
-["hair","ຜົມ","My hair is black.","Elementary"],
-["face","ໃບໜ້າ","Wash your face.","Elementary"],
-["tooth","ແຂ້ວ","Brush your teeth.","Elementary"],
-["tongue","ລີ້ນ","Stick out your tongue.","Elementary"],
-["finger","ນິ້ວມື","Count your fingers.","Elementary"],
-["mother","ແມ່","My mother is kind.","Elementary"],
-["father","ພໍ່","My father is strong.","Elementary"],
-["sister","ເອື້ອຍ/ນ້ອງ","My sister is nice.","Elementary"],
-["brother","ອ້າຍ/ນ້ອງ","My brother is funny.","Elementary"],
-["baby","ເດັກນ້ອຍ","The baby sleeps.","Elementary"],
-["friend","ໝູ່ເພື່ອນ","You are my friend.","Elementary"],
-["family","ຄອບຄົວ","I love my family.","Elementary"],
-["boy","ເດັກຊາຍ","He is a boy.","Elementary"],
-["girl","ເດັກຍິງ","She is a girl.","Elementary"],
-["man","ຜູ້ຊາຍ","He is a man.","Elementary"],
-["woman","ຜູ້ຍິງ","She is a woman.","Elementary"],
-["rice","ເຂົ້າ","I eat rice.","Elementary"],
-["bread","ເຂົ້າຈີ່","I eat bread.","Elementary"],
-["egg","ໄຂ່","I eat an egg.","Elementary"],
-["milk","ນົມ","I drink milk.","Elementary"],
-["water","ນ້ຳ","I drink water.","Elementary"],
-["tea","ຊາ","I drink tea.","Elementary"],
-["coffee","ກາເຟ","I drink coffee.","Elementary"],
-["fruit","ໝາກໄມ້","I like fruit.","Elementary"],
-["apple","ໝາກແອັບເປິ້ນ","An apple a day.","Elementary"],
-["banana","ໝາກກ້ວຍ","I eat banana.","Elementary"],
-["orange","ໝາກກ້ຽງ","I eat an orange.","Elementary"],
-["mango","ໝາກມ່ວງ","I like mango.","Elementary"],
-["meat","ຊີ້ນ","I eat meat.","Elementary"],
-["salt","ເກືອ","Add salt.","Elementary"],
-["sugar","ນ້ຳຕານ","Add sugar.","Elementary"],
-["breakfast","ອາຫານເຊົ້າ","I eat breakfast.","Elementary"],
-["lunch","ອາຫານທ່ຽງ","I eat lunch.","Elementary"],
-["dinner","ອາຫານແລງ","I eat dinner.","Elementary"],
-["hungry","ຫິວເຂົ້າ","I am hungry.","Elementary"],
-["thirsty","ຫິວນ້ຳ","I am thirsty.","Elementary"],
-["sun","ຕາເວັນ","The sun is hot.","Elementary"],
-["moon","ເດືອນ","The moon is beautiful.","Elementary"],
-["star","ດາວ","The star shines.","Elementary"],
-["sky","ທ້ອງຟ້າ","The sky is blue.","Elementary"],
-["cloud","ເມກ","The cloud is white.","Elementary"],
-["rain","ຝົນ","It rains today.","Elementary"],
-["wind","ລົມ","The wind is strong.","Elementary"],
-["flower","ດອກໄມ້","The flower is beautiful.","Elementary"],
-["tree","ຕົ້ນໄມ້","The tree is big.","Elementary"],
-["leaf","ໃບໄມ້","The leaf is green.","Elementary"],
-["river","ແມ່ນ້ຳ","The river is long.","Elementary"],
-["mountain","ພູ","The mountain is high.","Elementary"],
-["sea","ທະເລ","The sea is blue.","Elementary"],
-["house","ເຮືອນ","This is my house.","Elementary"],
-["home","ບ້ານ","I go home.","Elementary"],
-["kitchen","ເຮືອນຄົວ","Mother is in the kitchen.","Elementary"],
-["bedroom","ຫ້ອງນອນ","I sleep in my bedroom.","Elementary"],
-["bathroom","ຫ້ອງນ້ຳ","Where is the bathroom?","Elementary"],
-["table","ໂຕະ","On the table.","Elementary"],
-["bed","ຕຽງ","I sleep in bed.","Elementary"],
-["lamp","ໂຄມໄຟ","Turn on the lamp.","Elementary"],
-["clock","ໂມງ","Look at the clock.","Elementary"],
-["key","ກະແຈ","Where is my key?","Elementary"],
-["car","ລົດ","I have a car.","Elementary"],
-["bus","ລົດເມ","I go by bus.","Elementary"],
-["bicycle","ລົດຖີບ","I ride a bicycle.","Elementary"],
-["motorbike","ລົດຈັກ","I ride a motorbike.","Elementary"],
-["boat","ເຮືອ","The boat is on the river.","Elementary"],
-["airplane","ເຮືອບິນ","The airplane flies.","Elementary"],
-["train","ລົດໄຟ","The train is fast.","Elementary"],
-["road","ຖະໜົນ","This road is long.","Elementary"],
-["market","ຕະຫຼາດ","I go to market.","Elementary"],
-["shop","ຮ້ານ","I go to shop.","Elementary"],
-["hospital","ໂຮງໝໍ","The doctor is in hospital.","Elementary"],
-["doctor","ໝໍ","The doctor helps.","Elementary"],
-["money","ເງິນ","I need money.","Elementary"],
-["phone","ໂທລະສັບ","My phone is new.","Elementary"],
-["computer","ຄອມພິວເຕີ","I use a computer.","Elementary"],
-["music","ເພງ","I like music.","Elementary"],
-["song","ເພງ","I sing a song.","Elementary"],
-["dance","ເຕັ້ນ","Let's dance.","Elementary"],
-["sing","ຮ້ອງເພງ","I sing a song.","Elementary"],
-["play","ຫຼິ້ນ","Children play.","Elementary"],
-["game","ເກມ","Let's play a game.","Elementary"],
-["ball","ບານ","The ball is red.","Elementary"],
-["run","ແລ່ນ","I run fast.","Elementary"],
-["walk","ຍ່າງ","I walk to school.","Elementary"],
-["jump","ກະໂດດ","Jump high.","Elementary"],
-["swim","ລອຍນ້ຳ","I swim well.","Elementary"],
-["eat","ກິນ","I eat rice.","Elementary"],
-["drink","ດື່ມ","I drink water.","Elementary"],
-["sleep","ນອນ","I sleep early.","Elementary"],
-["wake","ຕື່ນ","Wake up.","Elementary"],
-["clean","ສະອາດ","Keep clean.","Elementary"],
-["dirty","ເປື້ອນ","My shirt is dirty.","Elementary"],
-["hot","ຮ້ອນ","It is hot.","Elementary"],
-["cold","ໜາວ","It is cold.","Elementary"],
-["fast","ໄວ","He runs fast.","Elementary"],
-["slow","ຊ້າ","Walk slow.","Elementary"],
-["easy","ງ່າຍ","This is easy.","Elementary"],
-["hard","ຍາກ","This is hard.","Elementary"],
-["beautiful","ງາມ","She is beautiful.","Elementary"],
-["strong","ແຂງແຮງ","He is strong.","Elementary"],
-["tired","ເມື່ອຍ","I am tired.","Elementary"],
-["morning","ຕອນເຊົ້າ","Good morning.","Elementary"],
-["evening","ຕອນແລງ","Good evening.","Elementary"],
-["today","ມື້ນີ້","Today is Monday.","Elementary"],
-["tomorrow","ມື້ອື່ນ","See you tomorrow.","Elementary"],
-["yesterday","ມື້ວານ","Yesterday I was home.","Elementary"],
-["summer","ລະດູຮ້ອນ","Summer is hot.","Elementary"],
-["winter","ລະດູໜາວ","Winter is cold.","Elementary"],
-["rainy","ມີຝົນ","Today is rainy.","Elementary"],
-["sunny","ມີແດດ","Today is sunny.","Elementary"],
-["
+let ALL=[];let curLevel=0;let score=0;let streak=0;let curQ=null;let mode='learn';
+let cache={};
+// Beginner 10 ຄຳ - ແປຖືກ 100%
+let BEGINNER=[
+["hello","ສະບາຍດີ","Hello, how are you?"],
+["goodbye","ລາກ່ອນ","Goodbye, see you."],
+["yes","ແມ່ນ","Yes, I do."],
+["no","ບໍ່","No, I don't."],
+["please","ກະລຸນາ","Please help me."],
+["thanks","ຂອບໃຈ","Thanks a lot."],
+["sorry","ຂໍໂທດ","Sorry, I am late."],
+["one","ໜຶ່ງ","One apple."],
+["two","ສອງ","Two apples."],
+["three","ສາມ","Three apples."]
+];
+let DICT={hello:"ສະບາຍດີ",goodbye:"ລາກ່ອນ",yes:"ແມ່ນ",no:"ບໍ່",please:"ກະລຸນາ",thanks:"ຂອບໃຈ",sorry:"ຂໍໂທດ",one:"ໜຶ່ງ",two:"ສອງ",three:"ສາມ",school:"ໂຮງຮຽນ",teacher:"ຄູ",student:"ນັກຮຽນ",book:"ປຶ້ມ",pencil:"ສໍ",dog:"ໝາ",cat:"ແມວ",water:"ນ້ຳ",food:"ອາຫານ",house:"ເຮືອນ",mother:"ແມ່",father:"ພໍ່",friend:"ໝູ່ເພື່ອນ",family:"ຄອບຄົວ",apple:"ໝາກແອັບເປິ້ນ",banana:"ໝາກກ້ວຍ",rice:"ເຂົ້າ",milk:"ນົມ",sun:"ຕາເວັນ",moon:"ເດືອນ",tree:"ຕົ້ນໄມ້",flower:"ດອກໄມ້",bird:"ນົກ",fish:"ປາ"};
+function speakText(t){try{let u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=0.8;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}setTimeout(()=>{if(!speechSynthesis.speaking){let a=new Audio('https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=en&client=tw-ob');a.play().catch(()=>{});}},400);}
+async function getLao(w){
+  if(DICT[w]) return DICT[w];
+  if(cache[w]) return cache[w];
+  try{
+    let r=await fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(w)+'&langpair=en|lo');
+    let j=await r.json();let t=j.responseData.translatedText||'';
+    if(t && t.toLowerCase()!==w.toLowerCase()){cache[w]=t;return t;}
+  }catch(e){}
+  return w;
+}
+async function load(){
+  // Elementary 990 ຄຳ - ເອົາຈາກລາຍຊື່ 1000 ຄຳທີ່ໃຊ້ຫຼາຍສຸດ ແລ້ວຕັດ Beginner 10 ຄຳອອກ
+  let words=[];
+  try{
+    let r=await fetch('https://raw.githubusercontent.com/first20hours/google-10000-english/master/20k.txt');
+    let t=await r.text();
+    words=t.split('\n').map(s=>s.trim()).filter(w=>/^[a-z]{3,8}$/.test(w));
+    // ເອົາແຕ່ຄຳ Elementary ທີ່ໃຊ້ຈິງ ບໍ່ເອົາຄຳແປກໆ
+    words=words.filter(w=>!BEGINNER.map(b=>b[0]).includes(w));
+    words=words.slice(0,990);
+  }catch(e){
+    // ຖ້າໂຫຼດບໍ່ໄດ້ ໃຊ້ລາຍຊື່ສຳຮອງ
+    words="school teacher student classroom pencil pen book bag desk chair door window board lesson homework exam question answer dog cat bird fish chicken pig cow elephant monkey snake frog butterfly bee ant head eye nose mouth ear hand foot leg arm hair face tooth finger mother father sister brother baby friend family boy girl man woman rice bread egg milk tea coffee fruit apple banana orange mango meat salt sugar breakfast lunch dinner sun moon star sky cloud rain wind flower tree leaf river mountain sea house home kitchen bedroom bathroom table bed lamp clock key car bus bicycle motorbike boat airplane train road market shop hospital doctor money phone computer music song dance sing play game ball run walk jump swim eat drink sleep wake clean hot cold fast slow easy hard beautiful strong tired morning evening today tomorrow yesterday love like help give take come go see hear know think open close buy sell pay watch cook wash smile laugh cry long short high low right wrong new old".split(" ");
+    while(words.length<990) words.push(...words.slice(0,990-words.length));
+    words=words.slice(0,990);
+  }
+  ALL=[];
+  BEGINNER.forEach((d,i)=>ALL.push({w:d[0],lao:d[1],ex:d[2],cat:"Beginner",level:0}));
+  words.forEach((w,i)=>ALL.push({w:w,lao:"",ex:'Example: I use "'+w+'" every day.',cat:"Elementary",level:Math.floor(i/99)+1}));
+  document.getElementById('counts').innerText='🟢 Beginner: 10 | 🔵 Elementary: '+words.length+' | ລວມ: '+ALL.length;
+  let h=`<button onclick="setLevel(0,this)">🟢 Beginner (10)</button>`;
+  for(let i=1;i<=10;i++)h+=`<button onclick="setLevel(${i},this)">🔵 Elementary ${i} (99)</button>`;
+  document.getElementById('levels').innerHTML=h;
+  render();
+}
+function showMode(m,b){mode=m;document.querySelectorAll('.top button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('learnBox').style.display=m==='learn'?'block':'none';document.getElementById('quizBox').style.display=m==='learn'?'none':'block';if(m!=='learn')newQuiz();}
+function setLevel(l,b){curLevel=l;document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');render();}
+async function render(){
+let q=document.getElementById('search').value.toLowerCase();
+let list=ALL.filter(o=>o.level===curLevel);
+if(q)list=ALL.filter(o=>o.w.includes(q));
+list=list.slice(0,50);
+document.getElementById('list').innerHTML=list.map((o,idx)=>`<div class="card"><div class="word" onclick="speakText('${o.w}')">🔊 ${o.w} <span class="badge" style="background:${o.cat==='Beginner'?'#22c55e':'#2563eb'}">${o.cat}</span></div><div class="mean" id="mean-${idx}">${o.lao? '🇱🇦 '+o.lao : '⏳ ກຳລັງແປ...'}</div><div class="ex">${o.ex}</div></div>`).join('');
+for(let idx=0;idx<list.length;idx++){
+  if(!list[idx].lao){
+    let lao=await getLao(list[idx].w);list[idx].lao=lao;
+    let el=document.getElementById('mean-'+idx);if(el)el.innerText='🇱🇦 '+lao;
+  }
+}
+}
+async function newQuiz(){
+if(ALL.length<4)return;
+let pool = mode==='game' ? ALL.filter(o=>o.cat==='Elementary') : ALL;
+let idx=Math.floor(Math.random()*pool.length);curQ=pool[idx];
+if(!curQ.lao) curQ.lao=await getLao(curQ.w);
+let opts=[curQ.lao];
+let tries=0;
+while(opts.length<4 && tries<20){tries++;let w=pool[Math.floor(Math.random()*pool.length)];let l=w.lao||await getLao(w.w);if(!opts.includes(l))opts.push(l);}
+opts.sort(()=>Math.random()-0.5);
+document.getElementById('quizBox').innerHTML=`<div class="quiz"><div>${mode==='game'?'🎮 ເກມ Elementary - ທາຍໃຫ້ໄວ!':'🎯 ຕອບຄຳຖາມ'} - ${curQ.cat}</div><h2 style="font-size:32px" onclick="speakText('${curQ.w}')">🔊 ${curQ.w}</h2><p>ຄຳນີ້ແປເປັນລາວວ່າຫຍັງ?</p><p style="color:#64748b">${curQ.ex}</p>${opts.map(o=>`<button class="opt" onclick="checkAns(this,'${o.replace(/'/g,"")}')">${o}</button>`).join('')}<div id="qResult"></div><button style="padding:12px 20px;border:none;border-radius:14px;background:#2563eb;color:#fff;margin-top:10px" onclick="newQuiz()">ຂໍ້ຕໍ່ໄປ ➡️</button></div>`;
+speakText(curQ.w);
+}
+function checkAns(btn,ans){
+if(ans===curQ.lao){score+=10;streak++;document.getElementById('qResult').innerHTML='<h3 style="color:green">✅ ຖືກຕ້ອງ! +10 🎉</h3>';speakText('Correct! Great job');}
+else{streak=0;document.getElementById('qResult').innerHTML='<h3 style="color:red">❌ ຜິດ! ຄຳຕອບແມ່ນ: '+curQ.lao+'</h3>';}
+document.getElementById('score').innerText='⭐ ຄະແນນ: '+score+' | 🔥 ຖືກຕິດຕໍ່ກັນ: '+streak;
+setTimeout(newQuiz,1500);
+}
+load();
+</script>
+</body>
+</html>
